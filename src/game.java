@@ -13,4 +13,6 @@ public class game extends JFrame {
     private JButton button10;
     private JButton button11;
     private JButton button12;
+    private JButton button13;
+    private JButton button14;
 }
