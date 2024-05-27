@@ -1,8 +1,86 @@
 
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("Hello and welcome!");
-
-
-        }
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c2 = new card(2, "r", "opn", "dmd", "src/images/row-1-column-2.png");
+        card c3 = new card(3, "r", "opn", "dmd", "src/images/row-1-column-3.png");
+        card c4 = new card(1, "r", "opn", "ovl", "src/images/row-1-column-4.png");
+        card c5 = new card(2, "r", "opn", "ovl", "src/images/row-1-column-5.png");
+        card c6 = new card(3, "r", "opn", "ovl", "src/images/row-1-column-6.png");
+        card c7 = new card(1, "r", "opn", "squ", "src/images/row-1-column-7.png");
+        card c8 = new card(2, "r", "opn", "squ", "src/images/row-1-column-8.png");
+        card c9 = new card(3, "r", "opn", "squ", "src/images/row-1-column-9.png");
+        card c10 = new card(1, "r", "str", "dmd", "src/images/row-2-column-1.png");
+        card c11 = new card(2, "r", "str", "dmd", "src/images/row-2-column-2.png");
+        card c12 = new card(3, "r", "str", "dmd", "src/images/row-2-column-3.png");
+        card c13 = new card(1, "r", "str", "ovl", "src/images/row-2-column-4.png");
+        card c14 = new card(2, "r", "str", "ovl", "src/images/row-2-column-5.png");
+        card c15 = new card(3, "r", "str", "ovl", "src/images/row-2-column-6.png");
+        card c16 = new card(1, "r", "str", "squ", "src/images/row-2-column-7.png");
+        card c17 = new card(2, "r", "str", "squ", "src/images/row-2-column-8.png");
+        card c18 = new card(3, "r", "str", "squ", "src/images/row-2-column-9.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+        card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
+    }
 }

@@ -5,7 +5,7 @@ public class card {
     int num; //can be 1, 2, 3
     String color; //can be r, g, p
     String filling; //can be sld, str, opn
-    String shape; //can be dia, squ, ovl
+    String shape; //can be dmd, squ, ovl
 
     //constructor
     public card(int num, String color, String filling, String shape, String src) {
