@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +38,7 @@ public class game extends JFrame {
     public ArrayList<JButton> buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15));
     public card[] displayed = new card[15];
     public ArrayList<Integer> existingSet = new ArrayList<>();
+    public boolean extra = false;
 
     public game() {
         setTitle("SET!");
@@ -48,8 +50,23 @@ public class game extends JFrame {
         start();
         checkSetPresent();
 
+
+
         ActionListener press = new ActionListener() {
+            int count = 0;
+            private Timer timer;
             public void actionPerformed(ActionEvent e) {
+
+                timer = new Timer(1000, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (count == 2) {
+                            timer.stop();
+                            count = 0;
+                        }
+                        count ++;
+                    }
+                });
+
                 for (JButton b: buttons) {
                     b.setBorder(empty);
                 }
@@ -63,23 +80,44 @@ public class game extends JFrame {
                             buttons.get(n).setBorder(green);
                         }
 
-                        SwingUtilities.invokeLater(() -> {
-                            try {
-                                Thread.sleep(1000);
-                            }
-                            catch(Exception ex) {
-                                System.out.println("error");
-                            }
-                        });
+                        timer.start();
 
-                        for (int i: selected) {
-                            displayed[i] = Main.pile.pop();
-                            buttons.get(i).setBorder(empty);
-                            buttons.get(i).setEnabled(true);
-                            buttons.get(i).setIcon(new ImageIcon(displayed[i].getSrc()));
+                        if (extra) {
+                            extra = false;
+                            for (int i: selected) {
+                                displayed[i] = null;
+                                buttons.get(i).setEnabled(true);
+                                buttons.get(i).setBorder(empty);
+                            }
+                            for (int j=12; j<=14; j++) {
+                                if (displayed[j] != null) {
+                                    System.out.println(j);
+                                    for (int k=0; k<=11; k++) {
+                                        if (displayed[k] == null) {
+                                            System.out.println(k);
+                                            displayed[k] = displayed[j];
+                                            buttons.get(k).setIcon(new ImageIcon(displayed[k].getSrc()));
+                                            displayed[j] = null;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            button13.setVisible(false);
+                            button14.setVisible(false);
+                            button15.setVisible(false);
+                        }
+                        else {
+                            for (int i: selected) {
+                                displayed[i] = Main.pile.pop();
+                                buttons.get(i).setBorder(empty);
+                                buttons.get(i).setEnabled(true);
+                                buttons.get(i).setIcon(new ImageIcon(displayed[i].getSrc()));
+                            }
                         }
 
                         if (!checkSetPresent()) {
+                            extra = true;
                             button13.setVisible(true);
                             button14.setVisible(true);
                             button15.setVisible(true);
@@ -89,6 +127,7 @@ public class game extends JFrame {
                             buttons.get(12).setIcon(new ImageIcon(displayed[12].getSrc()));
                             buttons.get(13).setIcon(new ImageIcon(displayed[13].getSrc()));
                             buttons.get(14).setIcon(new ImageIcon(displayed[14].getSrc()));
+                            checkSetPresent();
                         }
 
                     }
@@ -97,14 +136,7 @@ public class game extends JFrame {
                             buttons.get(n).setBorder(red);
                         }
 
-                        SwingUtilities.invokeLater(() -> {
-                            try {
-                                Thread.sleep(1000);
-                            }
-                            catch(Exception ex) {
-                                System.out.println("error");
-                            }
-                        });
+                        timer.start();
 
                         for (int i: selected) {
                             buttons.get(i).setBorder(empty);
@@ -153,10 +185,16 @@ public class game extends JFrame {
     }
 
     public boolean check(ArrayList<Integer> list){
+        boolean flag;
         card one = displayed[list.get(0)];
         card two = displayed[list.get(1)];
         card three = displayed[list.get(2)];
-        boolean flag = compareInt(one.getNum(), two.getNum(), three.getNum()) && compareString(one.getShape(), two.getShape(), three.getShape()) && compareString(one.getColor(), two.getColor(), three.getColor()) && compareString(one.getFilling(), two.getFilling(), three.getFilling());
+        if (one != null && two != null && three != null) {
+            flag = compareInt(one.getNum(), two.getNum(), three.getNum()) && compareString(one.getShape(), two.getShape(), three.getShape()) && compareString(one.getColor(), two.getColor(), three.getColor()) && compareString(one.getFilling(), two.getFilling(), three.getFilling());
+        }
+        else {
+            flag = false;
+        }
         return flag;
     }
 
@@ -186,15 +224,15 @@ public class game extends JFrame {
 
     public boolean checkSetPresent() {
         ArrayList<Integer> index = new ArrayList<>();
-        for (int i=0; i<10; i++) {
-            for (int j=i+1; j<11; j++) {
-                for (int k=j+1; k<12; k++) {
+        existingSet.clear();
+        for (int i=0; i<13; i++) {
+            for (int j=i+1; j<14; j++) {
+                for (int k=j+1; k<15; k++) {
                     index.clear();
                     index.add(i);
                     index.add(j);
                     index.add(k);
                     if (check(index)) {
-                        existingSet.clear();
                         for(Integer in: index) {
                             existingSet.add(in);
                         }
