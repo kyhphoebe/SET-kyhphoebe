@@ -4,7 +4,7 @@ public class card {
     String src;
     int num; //can be 1, 2, 3
     String color; //can be r, g, p
-    String filling; //can be sld, str, opn
+    String filling; //can be sol, str, opn
     String shape; //can be dmd, squ, ovl
 
     //constructor
@@ -31,5 +31,9 @@ public class card {
 
     public String getShape() {
         return shape;
+    }
+
+    public String getSrc() {
+        return src;
     }
 }
