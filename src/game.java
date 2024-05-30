@@ -23,12 +23,12 @@ public class game extends JFrame {
     private JButton hintButton;
     private JLabel time;
     private JLabel remaining;
-    private JLabel score;
     private JPanel mainPanel;
     private JPanel board;
     private JButton button13;
     private JButton button14;
     private JButton button15;
+    private JLabel message;
     public ArrayList<Integer> selected = new ArrayList<>();
     public Border green = BorderFactory.createLineBorder(Color.green, 4);
     public Border orange = BorderFactory.createLineBorder(Color.orange, 4);
@@ -39,6 +39,11 @@ public class game extends JFrame {
     public card[] displayed = new card[15];
     public ArrayList<Integer> existingSet = new ArrayList<>();
     public boolean extra = false;
+    private Timer timer;
+    private int hours = 0;
+    private int minutes = 0;
+    private int seconds = 0;
+    public int remainingCards = 69;
 
     public game() {
         setTitle("SET!");
@@ -49,75 +54,89 @@ public class game extends JFrame {
         setResizable(false);
         start();
         checkSetPresent();
-
-
+        message.setText(" ");
+        remaining.setText("Remaining Cards: " + remainingCards);
+        timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateTime();
+                }
+        });
+        timer.start();
 
         ActionListener press = new ActionListener() {
-            int count = 0;
-            private Timer timer;
             public void actionPerformed(ActionEvent e) {
-
-                timer = new Timer(1000, new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (count == 2) {
-                            timer.stop();
-                            count = 0;
-                        }
-                        count ++;
-                    }
-                });
 
                 for (JButton b: buttons) {
                     b.setBorder(empty);
                 }
+                message.setText(" ");
                 JButton btn = (JButton) e.getSource();
                 btn.setEnabled(false);
                 selected.add(buttons.indexOf(btn));
                 if (selected.size() == 3) {
                     boolean b = check(selected);
                     if (b) {
+                        message.setText("SET!");
                         for (int n: selected) {
                             buttons.get(n).setBorder(green);
                         }
 
-                        timer.start();
+                        // add delay function
 
-                        if (extra) {
-                            extra = false;
+                        if (remainingCards == 0) {
                             for (int i: selected) {
                                 displayed[i] = null;
-                                buttons.get(i).setEnabled(true);
                                 buttons.get(i).setBorder(empty);
+                                buttons.get(i).setEnabled(false);
+                                buttons.get(i).setIcon(null);
                             }
-                            for (int j=12; j<=14; j++) {
-                                if (displayed[j] != null) {
-                                    System.out.println(j);
-                                    for (int k=0; k<=11; k++) {
-                                        if (displayed[k] == null) {
-                                            System.out.println(k);
-                                            displayed[k] = displayed[j];
-                                            buttons.get(k).setIcon(new ImageIcon(displayed[k].getSrc()));
-                                            displayed[j] = null;
-                                            break;
+                        }
+                        else {
+                            if (extra) {
+                                extra = false;
+                                for (int i: selected) {
+                                    displayed[i] = null;
+                                    buttons.get(i).setEnabled(true);
+                                    buttons.get(i).setBorder(empty);
+                                }
+                                for (int j=12; j<=14; j++) {
+                                    if (displayed[j] != null) {
+                                        System.out.println(j);
+                                        for (int k=0; k<=11; k++) {
+                                            if (displayed[k] == null) {
+                                                System.out.println(k);
+                                                displayed[k] = displayed[j];
+                                                buttons.get(k).setIcon(new ImageIcon(displayed[k].getSrc()));
+                                                displayed[j] = null;
+                                                break;
+                                            }
                                         }
                                     }
                                 }
+                                button13.setVisible(false);
+                                button14.setVisible(false);
+                                button15.setVisible(false);
                             }
-                            button13.setVisible(false);
-                            button14.setVisible(false);
-                            button15.setVisible(false);
-                        }
-                        else {
-                            for (int i: selected) {
-                                displayed[i] = Main.pile.pop();
-                                buttons.get(i).setBorder(empty);
-                                buttons.get(i).setEnabled(true);
-                                buttons.get(i).setIcon(new ImageIcon(displayed[i].getSrc()));
+                            else {
+                                remainingCards -= 3;
+                                remaining.setText("Remaining Cards: " + remainingCards);
+                                for (int i : selected) {
+                                    displayed[i] = Main.pile.pop();
+                                    buttons.get(i).setBorder(empty);
+                                    buttons.get(i).setEnabled(true);
+                                    buttons.get(i).setIcon(new ImageIcon(displayed[i].getSrc()));
+                                }
                             }
                         }
 
                         if (!checkSetPresent()) {
+                            if (remainingCards == 0){
+                                gameOver();
+                                return;
+                            }
                             extra = true;
+                            remainingCards -= 3;
+                            remaining.setText("Remaining Cards: " + remainingCards);
                             button13.setVisible(true);
                             button14.setVisible(true);
                             button15.setVisible(true);
@@ -136,7 +155,7 @@ public class game extends JFrame {
                             buttons.get(n).setBorder(red);
                         }
 
-                        timer.start();
+                        //add delay function
 
                         for (int i: selected) {
                             buttons.get(i).setBorder(empty);
@@ -174,6 +193,22 @@ public class game extends JFrame {
             button14.setVisible(false);
             button15.setVisible(false);
         }
+    }
+
+    private void updateTime() {
+        seconds++;
+        if (seconds == 60) {
+            seconds = 0;
+            minutes++;
+        }
+        if (minutes == 60) {
+            minutes = 0;
+            hours++;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            time.setText("Time: " + String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        });
     }
 
     public void initialize(){
@@ -243,6 +278,15 @@ public class game extends JFrame {
         }
         System.out.println("false");
         return false;
+    }
+
+    public void gameOver() {
+
+        message.setText("Game Over!");
+        for (JButton b: buttons) {
+            b.setEnabled(false);
+            hintButton.setEnabled(false);
+        }
     }
 
     public static void main(String[] args) {
