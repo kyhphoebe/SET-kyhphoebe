@@ -34,7 +34,6 @@ public class game extends JFrame {
     public Border orange = BorderFactory.createLineBorder(Color.orange, 4);
     public Border red = BorderFactory.createLineBorder(Color.red, 4);
     public Border empty = BorderFactory.createEmptyBorder(4,4,4,4);
-
     public ArrayList<JButton> buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15));
     public card[] displayed = new card[15];
     public ArrayList<Integer> existingSet = new ArrayList<>();
@@ -65,7 +64,6 @@ public class game extends JFrame {
 
         ActionListener press = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 for (JButton b: buttons) {
                     b.setBorder(empty);
                 }
@@ -81,7 +79,7 @@ public class game extends JFrame {
                             buttons.get(n).setBorder(green);
                         }
 
-                        // add delay function
+                        //delay
 
                         if (remainingCards == 0) {
                             for (int i: selected) {
@@ -131,6 +129,7 @@ public class game extends JFrame {
 
                         if (!checkSetPresent()) {
                             if (remainingCards == 0){
+                                timer.stop();
                                 gameOver();
                                 return;
                             }
@@ -155,7 +154,7 @@ public class game extends JFrame {
                             buttons.get(n).setBorder(red);
                         }
 
-                        //add delay function
+                        //delay
 
                         for (int i: selected) {
                             buttons.get(i).setBorder(empty);
@@ -195,7 +194,7 @@ public class game extends JFrame {
         }
     }
 
-    private void updateTime() {
+    public void updateTime() {
         seconds++;
         if (seconds == 60) {
             seconds = 0;
@@ -276,12 +275,10 @@ public class game extends JFrame {
                 }
             }
         }
-        System.out.println("false");
         return false;
     }
 
     public void gameOver() {
-
         message.setText("Game Over!");
         for (JButton b: buttons) {
             b.setEnabled(false);
