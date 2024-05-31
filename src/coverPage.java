@@ -9,6 +9,7 @@ public class coverPage extends JFrame{
     private JButton startButton;
     private JLabel label1;
     private JButton instructionButton;
+    private JButton trainingButton;
 
     public coverPage() {
         setTitle("Welcome to SET!");
@@ -32,13 +33,12 @@ public class coverPage extends JFrame{
                 new instruction().setVisible(true);
             }
         });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new coverPage();
+        trainingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new training().setVisible(true);
             }
         });
     }
+
 }
