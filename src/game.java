@@ -29,6 +29,7 @@ public class game extends JFrame {
     private JButton button14;
     private JButton button15;
     private JLabel message;
+    private JButton quitButton;
     public ArrayList<Integer> selected = new ArrayList<>();
     public Border green = BorderFactory.createLineBorder(Color.green, 4);
     public Border orange = BorderFactory.createLineBorder(Color.orange, 4);
@@ -61,6 +62,12 @@ public class game extends JFrame {
                 }
         });
         timer.start();
+        Timer disable = new Timer(30000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hintButton.setEnabled(true);
+            }
+        });
+        disable.setRepeats(false);
 
         ActionListener press = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +81,7 @@ public class game extends JFrame {
                 if (selected.size() == 3) {
                     boolean b = check(selected);
                     if (b) {
+                        message.setForeground(new Color(102, 204, 0));
                         message.setText("SET!");
                         for (int n: selected) {
                             buttons.get(n).setBorder(green);
@@ -153,6 +161,8 @@ public class game extends JFrame {
                         for (int n: selected) {
                             buttons.get(n).setBorder(red);
                         }
+                        message.setForeground(Color.red);
+                        message.setText("Not a SET");
 
                         //delay
 
@@ -179,6 +189,14 @@ public class game extends JFrame {
                 for(Integer n: existingSet) {
                     buttons.get(n).setBorder(orange);
                 }
+                hintButton.setEnabled(false);
+                disable.start();
+            }
+        });
+        quitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new coverPage().setVisible(true);
             }
         });
     }

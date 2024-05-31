@@ -15,6 +15,7 @@ public class training extends JFrame{
     private JLabel title;
     private JPanel mainPanel;
     private JLabel message;
+    private JButton backButton;
     public boolean isSet;
     public JLabel[] display = {left, middle, right};
     public ArrayList<card> set = new ArrayList<>();
@@ -52,6 +53,13 @@ public class training extends JFrame{
                     message.setText("Correct!");
                     showSet(generate());
                 }
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new coverPage().setVisible(true);
             }
         });
     }
