@@ -44,6 +44,7 @@ public class game extends JFrame {
     private int minutes = 0;
     private int seconds = 0;
     public int remainingCards = 69;
+    public int streak = 0;
 
     public game() {
         setTitle("SET!");
@@ -52,6 +53,7 @@ public class game extends JFrame {
         setVisible(true);
         setContentPane(mainPanel);
         setResizable(false);
+        SoundPlayer.playSound("src/GameStart Sound.wav");
         start();
         checkSetPresent();
         message.setText(" ");
@@ -62,7 +64,7 @@ public class game extends JFrame {
                 }
         });
         timer.start();
-        Timer disable = new Timer(30000, new ActionListener() {
+        Timer disable = new Timer(15000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hintButton.setEnabled(true);
             }
@@ -81,6 +83,16 @@ public class game extends JFrame {
                 if (selected.size() == 3) {
                     boolean b = check(selected);
                     if (b) {
+                        streak++;
+                        if (streak == 3) {
+                            SoundPlayer.playSound("src/amazing.wav");
+                        }
+                        else if (streak >= 6 && streak % 3 == 0){
+                            SoundPlayer.playSound("src/unbelievable.wav");
+                        }
+                        else {
+                            SoundPlayer.playSound("src/correct.wav");
+                        }
                         message.setForeground(new Color(102, 204, 0));
                         message.setText("SET!");
                         for (int n: selected) {
@@ -100,6 +112,7 @@ public class game extends JFrame {
                         else {
                             if (extra) {
                                 extra = false;
+                                SoundPlayer.playSound("src/buttonclick.wav");
                                 for (int i: selected) {
                                     displayed[i] = null;
                                     buttons.get(i).setEnabled(true);
@@ -107,10 +120,8 @@ public class game extends JFrame {
                                 }
                                 for (int j=12; j<=14; j++) {
                                     if (displayed[j] != null) {
-                                        System.out.println(j);
                                         for (int k=0; k<=11; k++) {
                                             if (displayed[k] == null) {
-                                                System.out.println(k);
                                                 displayed[k] = displayed[j];
                                                 buttons.get(k).setIcon(new ImageIcon(displayed[k].getSrc()));
                                                 displayed[j] = null;
@@ -137,10 +148,12 @@ public class game extends JFrame {
 
                         if (!checkSetPresent()) {
                             if (remainingCards == 0){
+                                SoundPlayer.playSound("src/gameover.wav");
                                 timer.stop();
                                 gameOver();
                                 return;
                             }
+                            SoundPlayer.playSound("src/buttonclick.wav");
                             extra = true;
                             remainingCards -= 3;
                             remaining.setText("Remaining Cards: " + remainingCards);
@@ -158,6 +171,8 @@ public class game extends JFrame {
 
                     }
                     else {
+                        SoundPlayer.playSound("src/incorrect.wav");
+                        streak = 0;
                         for (int n: selected) {
                             buttons.get(n).setBorder(red);
                         }
@@ -180,12 +195,14 @@ public class game extends JFrame {
         }
         restartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                SoundPlayer.playSound("src/buttonclick.wav");
                 dispose();
                 new game().setVisible(true);
             }
         });
         hintButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                SoundPlayer.playSound("src/hint.wav");
                 for(Integer n: existingSet) {
                     buttons.get(n).setBorder(orange);
                 }
@@ -195,6 +212,7 @@ public class game extends JFrame {
         });
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                SoundPlayer.playSound("src/buttonclick.wav");
                 dispose();
                 new coverPage().setVisible(true);
             }
@@ -297,6 +315,7 @@ public class game extends JFrame {
     }
 
     public void gameOver() {
+        SoundPlayer.playSound("src/gameover.wav");
         message.setText("Game Over!");
         for (JButton b: buttons) {
             b.setEnabled(false);
