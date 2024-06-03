@@ -79,6 +79,7 @@ public class game extends JFrame {
          */
         ActionListener press = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                SoundPlayer.playSound("src/buttonclick.wav");
                 for (JButton b: buttons) { //clear the borders
                     b.setBorder(empty);
                 }
@@ -321,6 +322,13 @@ public class game extends JFrame {
         }
     }
 
+    /**
+     * method for comparing number of shapes of the cards (int type variable)
+     * @param n1
+     * @param n2
+     * @param n3
+     * @return whether numbers are all same or all different or not
+     */
     public boolean compareInt(int n1, int n2, int n3) {
         if (n1 == n2 && n2 == n3) {
             return true;
@@ -333,6 +341,11 @@ public class game extends JFrame {
         }
     }
 
+    /**
+     * algorithm that loops through all three-card combination of cards on board and see if there is a SET
+     * If so, update existing set
+     * @return return whether SET exists
+     */
     public boolean checkSetPresent() {
         ArrayList<Integer> index = new ArrayList<>();
         existingSet.clear();
@@ -355,6 +368,9 @@ public class game extends JFrame {
         return false;
     }
 
+    /**
+     * calls method when game is over
+     */
     public void gameOver() {
         SoundPlayer.playSound("src/gameover.wav");
         message.setText("Game Over!");
