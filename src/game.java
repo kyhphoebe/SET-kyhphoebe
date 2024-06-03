@@ -47,6 +47,9 @@ public class game extends JFrame {
     public int streak = 0;
 
     public game() {
+        /**
+         * initialize game and update existing SET & timers
+         */
         setTitle("SET!");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(700,600);  //set window size
@@ -71,18 +74,23 @@ public class game extends JFrame {
         });
         disable.setRepeats(false);
 
+        /**
+         * method when card buttons are pressed
+         */
         ActionListener press = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (JButton b: buttons) {
+                for (JButton b: buttons) { //clear the borders
                     b.setBorder(empty);
                 }
                 message.setText(" ");
                 JButton btn = (JButton) e.getSource();
-                btn.setEnabled(false);
-                selected.add(buttons.indexOf(btn));
+                btn.setEnabled(false); //disable the button after being pressed
+                selected.add(buttons.indexOf(btn)); //add the index of the button to arraylist to keep track of buttons pressed
                 if (selected.size() == 3) {
-                    boolean b = check(selected);
+                    boolean b = check(selected); //check the three cards selected
                     if (b) {
+
+                        //play different sound according to streak
                         streak++;
                         if (streak == 3) {
                             SoundPlayer.playSound("src/amazing.wav");
@@ -93,6 +101,7 @@ public class game extends JFrame {
                         else {
                             SoundPlayer.playSound("src/correct.wav");
                         }
+
                         message.setForeground(new Color(102, 204, 0));
                         message.setText("SET!");
                         for (int n: selected) {
@@ -101,7 +110,7 @@ public class game extends JFrame {
 
                         //delay
 
-                        if (remainingCards == 0) {
+                        if (remainingCards == 0) { //if there is no remaining cards in stack
                             for (int i: selected) {
                                 displayed[i] = null;
                                 buttons.get(i).setBorder(empty);
@@ -110,15 +119,15 @@ public class game extends JFrame {
                             }
                         }
                         else {
-                            if (extra) {
+                            if (extra) { //if extra card slots are added (need to get rid of extra slots if SET presents)
                                 extra = false;
                                 SoundPlayer.playSound("src/buttonclick.wav");
-                                for (int i: selected) {
+                                for (int i: selected) { //clear the extra slots
                                     displayed[i] = null;
                                     buttons.get(i).setEnabled(true);
                                     buttons.get(i).setBorder(empty);
                                 }
-                                for (int j=12; j<=14; j++) {
+                                for (int j=12; j<=14; j++) { //put the extra cards into the 12 slot board
                                     if (displayed[j] != null) {
                                         for (int k=0; k<=11; k++) {
                                             if (displayed[k] == null) {
@@ -134,7 +143,7 @@ public class game extends JFrame {
                                 button14.setVisible(false);
                                 button15.setVisible(false);
                             }
-                            else {
+                            else { //if no extra slots are evoked
                                 remainingCards -= 3;
                                 remaining.setText("Remaining Cards: " + remainingCards);
                                 for (int i : selected) {
@@ -146,15 +155,15 @@ public class game extends JFrame {
                             }
                         }
 
-                        if (!checkSetPresent()) {
-                            if (remainingCards == 0){
+                        if (!checkSetPresent()) { //if there is no set presented on board (need extra slots)
+                            if (remainingCards == 0){ //if there is no card in stack - game over
                                 SoundPlayer.playSound("src/gameover.wav");
                                 timer.stop();
                                 gameOver();
                                 return;
                             }
                             SoundPlayer.playSound("src/buttonclick.wav");
-                            extra = true;
+                            extra = true; //if game is not over - add extra slots
                             remainingCards -= 3;
                             remaining.setText("Remaining Cards: " + remainingCards);
                             button13.setVisible(true);
@@ -168,7 +177,6 @@ public class game extends JFrame {
                             buttons.get(14).setIcon(new ImageIcon(displayed[14].getSrc()));
                             checkSetPresent();
                         }
-
                     }
                     else {
                         SoundPlayer.playSound("src/incorrect.wav");
@@ -186,13 +194,17 @@ public class game extends JFrame {
                             buttons.get(i).setEnabled(true);
                         }
                     }
-                    selected.clear();
+                    selected.clear(); //clear selected arraylist after checking s SET
                 }
             }
         };
         for (JButton b: buttons) {
             b.addActionListener(press);
         }
+
+        /**
+         * Restart button: click to restart game
+         */
         restartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/buttonclick.wav");
@@ -200,6 +212,10 @@ public class game extends JFrame {
                 new game().setVisible(true);
             }
         });
+
+        /**
+         * Hint button: click to highlight an existing SET
+         */
         hintButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/hint.wav");
@@ -210,6 +226,10 @@ public class game extends JFrame {
                 disable.start();
             }
         });
+
+        /**
+         * Quit button: click to return to cover page
+         */
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/buttonclick.wav");
@@ -219,6 +239,20 @@ public class game extends JFrame {
         });
     }
 
+    /**
+     * shuffle deck and create stack
+     */
+    public void initialize(){
+        Collections.shuffle(Main.deck);
+        Main.pile.clear();
+        for(card c: Main.deck) {
+            Main.pile.add(c);
+        }
+    }
+
+    /**
+     * initializes the board
+     */
     public void start(){
         initialize();
         for (int i=0; i<12; i++) {
@@ -230,6 +264,9 @@ public class game extends JFrame {
         }
     }
 
+    /**
+     * timer function
+     */
     public void updateTime() {
         seconds++;
         if (seconds == 60) {
@@ -246,14 +283,11 @@ public class game extends JFrame {
         });
     }
 
-    public void initialize(){
-        Collections.shuffle(Main.deck);
-        Main.pile.clear();
-        for(card c: Main.deck) {
-            Main.pile.add(c);
-        }
-    }
-
+    /**
+     * method that checks whether the cards corresponding with the arraylist are a SET
+     * @param list a list that records the index of selected cards (selected)
+     * @return whether is a SET
+     */
     public boolean check(ArrayList<Integer> list){
         boolean flag;
         card one = displayed[list.get(0)];
@@ -268,6 +302,13 @@ public class game extends JFrame {
         return flag;
     }
 
+    /**
+     * method for comparing color, shape and filling of the cards (String type variables)
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return whether strings are all same or all different or not
+     */
     public boolean compareString(String s1, String s2, String s3) {
         if (s1.equals(s2) && s2.equals(s3)) {
             return true;

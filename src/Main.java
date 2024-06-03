@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Stack;
 
 public class Main {
@@ -8,6 +6,9 @@ public class Main {
     public static Stack<card> pile = new Stack<>();
     public static ArrayList<card> deck = new ArrayList<>();
     public static void main(String[] args) {
+        /**
+         * initialize all 81 cards
+         */
         card c1 = new card(1, "r", "opn", "dmd", "src/images/row-1-column-1.png");
         card c2 = new card(2, "r", "opn", "dmd", "src/images/row-1-column-2.png");
         card c3 = new card(3, "r", "opn", "dmd", "src/images/row-1-column-3.png");

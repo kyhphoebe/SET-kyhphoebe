@@ -14,6 +14,9 @@ public class coverPage extends JFrame{
     Clip music;
 
     public coverPage() {
+        /**
+         * initialize cover page
+         */
         setTitle("Welcome to SET!");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(700, 600);  //set window size
@@ -25,6 +28,10 @@ public class coverPage extends JFrame{
         Image img = original.getImage().getScaledInstance(700, 200, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(img);
         label1.setIcon(icon);
+
+        /**
+         * Start button: click to start a SET game
+         */
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 music.stop();
@@ -33,12 +40,20 @@ public class coverPage extends JFrame{
                 new game().setVisible(true);
             }
         });
+
+        /**
+         * Instruction button: click to view instructions
+         */
         instructionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/buttonclick.wav");
                 new instruction().setVisible(true);
             }
         });
+
+        /**
+         * Training button: click to start training
+         */
         trainingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 music.stop();

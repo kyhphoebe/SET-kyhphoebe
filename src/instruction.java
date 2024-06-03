@@ -8,6 +8,9 @@ public class instruction extends JFrame {
     private JLabel middleLabel;
 
     public instruction() {
+        /**
+         * initialize instructions
+         */
         setTitle("Instruction");
         setSize(700, 600);  //set window size
         setVisible(true);

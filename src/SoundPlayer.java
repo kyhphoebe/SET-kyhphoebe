@@ -25,6 +25,11 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * loop the song continuously
+     * @param soundName
+     * @return the clip for stopping it when needed
+     */
     public static Clip loopMusic(String soundName) {
         try{
             File soundFile = new File(soundName);

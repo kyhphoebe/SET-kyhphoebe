@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * class for cards
+ */
 public class card {
     String src;
     int num; //can be 1, 2, 3
@@ -16,23 +19,42 @@ public class card {
         this.src = src;
     }
 
-    //getters
+    /**
+     * get the number of shapes on the card
+     * @return the number of shapes of card
+     */
     public int getNum(){
         return num;
     }
 
+    /**
+     * get the color of card
+     * @return the color of card
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * get the filling of card
+     * @return the filling of card
+     */
     public String getFilling() {
         return filling;
     }
 
+    /**
+     * get the shape on card
+     * @return the shape on card
+     */
     public String getShape() {
         return shape;
     }
 
+    /**
+     * get the corresponding source of card image
+     * @return the source of card image
+     */
     public String getSrc() {
         return src;
     }

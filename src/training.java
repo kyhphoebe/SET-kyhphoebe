@@ -21,6 +21,9 @@ public class training extends JFrame{
     public ArrayList<card> set = new ArrayList<>();
 
     public training() {
+        /**
+         * initialize page and generate three cards to start training
+         */
         setTitle("Training");
         setSize(700, 600);  //set window size
         setVisible(true);
@@ -28,6 +31,9 @@ public class training extends JFrame{
         setContentPane(mainPanel);
         showSet(generate());
 
+        /**
+         * Yes button: click yes if user thinks the shown cards are a SET
+         */
         yesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isSet) {
@@ -44,6 +50,9 @@ public class training extends JFrame{
             }
         });
 
+        /**
+         * No button: click no if user thinks the shown cards are not a SET
+         */
         noButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isSet) {
@@ -60,6 +69,9 @@ public class training extends JFrame{
             }
         });
 
+        /**
+         * Back button: click to return to cover page
+         */
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/buttonclick.wav");
@@ -69,6 +81,10 @@ public class training extends JFrame{
         });
     }
 
+    /**
+     * to display the three cards on the screen
+     * @param set is an arraylist of cards generated from generate()
+     */
     public void showSet(ArrayList<card> set) {
         Collections.shuffle(set);
         left.setIcon(new ImageIcon(set.get(0).getSrc()));
@@ -76,16 +92,19 @@ public class training extends JFrame{
         right.setIcon(new ImageIcon(set.get(2).getSrc()));
     }
 
+    /**
+     * randomly generate three cards that are either a SET or very close (3 out of 4 features are satisfied) to a SET
+     * @return returns an arraylist of three cards to be displayed
+     */
     public ArrayList<card> generate() {
         Random rand = new Random();
         int m, n;
-        int choice = rand.nextInt(2);
+        int choice = rand.nextInt(2); //0 stands for not a SET and 1 stands for SET
         ArrayList<card> output = new ArrayList<>();
 
-        while (true)
-        {
+        while (true) {
             n = rand.nextInt(81);
-            m = rand.nextInt(81);
+            m = rand.nextInt(81); //randomly pick two cards
             if (m != n) {
                 break;
             }
@@ -96,7 +115,7 @@ public class training extends JFrame{
         output.add(one);
         output.add(two);
 
-        for (card c: Main.deck) {
+        for (card c: Main.deck) { //loop through the remaining cards in deck and find the first satisfying card
             if (!(c.equals(m) || c.equals(n))){
                 if (choice == 1 && check(one, two, c) == 4) {
                     output.add(c);
@@ -113,6 +132,13 @@ public class training extends JFrame{
         return output;
     }
 
+    /**
+     * method used for counting the number of satisfying features for the three cards
+     * @param one
+     * @param two
+     * @param three
+     * @return count of satisfying features (0 - 4)
+     */
     public int check(card one, card two, card three){
         int count = 0;
         if (compareInt(one.getNum(), two.getNum(), three.getNum())) {
@@ -131,6 +157,13 @@ public class training extends JFrame{
         return count;
     }
 
+    /**
+     * method for comparing color, shape and filling of the cards (String type variables)
+     * @param s1
+     * @param s2
+     * @param s3
+     * @return whether strings are all same or all different or not
+     */
     public boolean compareString(String s1, String s2, String s3) {
         if (s1.equals(s2) && s2.equals(s3)) {
             return true;
@@ -143,6 +176,13 @@ public class training extends JFrame{
         }
     }
 
+    /**
+     * method for comparing number of shapes of the cards (int type variable)
+     * @param n1
+     * @param n2
+     * @param n3
+     * @return whether numbers are all same or all different or not
+     */
     public boolean compareInt(int n1, int n2, int n3) {
         if (n1 == n2 && n2 == n3) {
             return true;
