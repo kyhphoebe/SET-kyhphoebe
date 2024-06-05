@@ -11,6 +11,7 @@ public class coverPage extends JFrame{
     private JLabel label1;
     private JButton instructionButton;
     private JButton trainingButton;
+    private JCheckBox checkbox;
     Clip music;
 
     public coverPage() {
@@ -37,7 +38,7 @@ public class coverPage extends JFrame{
                 music.stop();
                 SoundPlayer.playSound("src/buttonclick.wav");
                 dispose();
-                new game().setVisible(true);
+                new game(checkbox.isSelected()).setVisible(true);
             }
         });
 

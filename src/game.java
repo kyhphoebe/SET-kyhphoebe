@@ -39,14 +39,15 @@ public class game extends JFrame {
     public card[] displayed = new card[15];
     public ArrayList<Integer> existingSet = new ArrayList<>();
     public boolean extra = false;
-    private Timer timer;
+    public Timer timer;
+    public Timer countdown;
     private int hours = 0;
     private int minutes = 0;
     private int seconds = 0;
     public int remainingCards = 69;
     public int streak = 0;
 
-    public game() {
+    public game(boolean challenge) {
         /**
          * initialize game and update existing SET & timers
          */
@@ -58,16 +59,40 @@ public class game extends JFrame {
         setResizable(false);
         SoundPlayer.playSound("src/GameStart Sound.wav");
         start();
-        checkSetPresent();
+        if (!checkSetPresent()) {
+            addExtraSlot();
+        }
         message.setText(" ");
         remaining.setText("Remaining Cards: " + remainingCards);
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 updateTime();
-                }
+            }
         });
-        timer.start();
-        Timer disable = new Timer(15000, new ActionListener() {
+        countdown = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                countdown();
+                if (minutes == 0 && seconds == 0) {
+                    countdown.stop();
+                    SoundPlayer.playSound("src/womp.wav");
+                    message.setForeground(Color.red);
+                    message.setText("Time's Up");
+                    for (JButton b: buttons) {
+                        b.setEnabled(false);
+                        hintButton.setEnabled(false);
+                    }
+                }
+            }
+        });
+        if (challenge) {
+            minutes = 8;
+            countdown.start();
+        }
+        else {
+            timer.start();
+        }
+
+        Timer disable = new Timer(30000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hintButton.setEnabled(true);
             }
@@ -159,24 +184,23 @@ public class game extends JFrame {
                         if (!checkSetPresent()) { //if there is no set presented on board (need extra slots)
                             if (remainingCards == 0){ //if there is no card in stack - game over
                                 SoundPlayer.playSound("src/gameover.wav");
-                                timer.stop();
-                                gameOver();
+                                for (JButton bu: buttons) {
+                                    bu.setEnabled(false);
+                                    hintButton.setEnabled(false);
+                                }
+                                message.setForeground(new Color(102, 204, 0));
+                                if (challenge) {
+                                    message.setText("You won!");
+                                    countdown.stop();
+                                }
+                                else {
+                                    message.setText("Game Over!");
+                                    timer.stop();
+                                }
                                 return;
                             }
                             SoundPlayer.playSound("src/buttonclick.wav");
-                            extra = true; //if game is not over - add extra slots
-                            remainingCards -= 3;
-                            remaining.setText("Remaining Cards: " + remainingCards);
-                            button13.setVisible(true);
-                            button14.setVisible(true);
-                            button15.setVisible(true);
-                            displayed[12] = Main.pile.pop();
-                            displayed[13] = Main.pile.pop();
-                            displayed[14] = Main.pile.pop();
-                            buttons.get(12).setIcon(new ImageIcon(displayed[12].getSrc()));
-                            buttons.get(13).setIcon(new ImageIcon(displayed[13].getSrc()));
-                            buttons.get(14).setIcon(new ImageIcon(displayed[14].getSrc()));
-                            checkSetPresent();
+                            addExtraSlot();
                         }
                     }
                     else {
@@ -210,7 +234,7 @@ public class game extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SoundPlayer.playSound("src/buttonclick.wav");
                 dispose();
-                new game().setVisible(true);
+                new game(challenge).setVisible(true);
             }
         });
 
@@ -277,6 +301,21 @@ public class game extends JFrame {
         if (minutes == 60) {
             minutes = 0;
             hours++;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            time.setText("Time: " + String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        });
+    }
+
+    /**
+     * countdown function
+     */
+    public void countdown() {
+        seconds--;
+        if (seconds == -1) {
+            seconds = 59;
+            minutes--;
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -369,6 +408,25 @@ public class game extends JFrame {
     }
 
     /**
+     * method for adding three extra slots when there is no SET on board
+     */
+    public void addExtraSlot() {
+        extra = true;
+        remainingCards -= 3;
+        remaining.setText("Remaining Cards: " + remainingCards);
+        button13.setVisible(true);
+        button14.setVisible(true);
+        button15.setVisible(true);
+        displayed[12] = Main.pile.pop();
+        displayed[13] = Main.pile.pop();
+        displayed[14] = Main.pile.pop();
+        buttons.get(12).setIcon(new ImageIcon(displayed[12].getSrc()));
+        buttons.get(13).setIcon(new ImageIcon(displayed[13].getSrc()));
+        buttons.get(14).setIcon(new ImageIcon(displayed[14].getSrc()));
+        checkSetPresent();
+    }
+
+    /**
      * calls method when game is over
      */
     public void gameOver() {
@@ -383,7 +441,7 @@ public class game extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new game();
+                new game(false);
             }
         });
     }
