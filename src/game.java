@@ -57,7 +57,7 @@ public class game extends JFrame {
         setVisible(true);
         setContentPane(mainPanel);
         setResizable(false);
-        SoundPlayer.playSound("src/GameStart Sound.wav");
+        SoundPlayer.playSound("src/sounds/GameStart Sound.wav");
         start();
         if (!checkSetPresent()) {
             addExtraSlot();
@@ -74,7 +74,7 @@ public class game extends JFrame {
                 countdown();
                 if (minutes == 0 && seconds == 0) {
                     countdown.stop();
-                    SoundPlayer.playSound("src/womp.wav");
+                    SoundPlayer.playSound("src/sounds/womp.wav");
                     message.setForeground(Color.red);
                     message.setText("Time's Up");
                     for (JButton b: buttons) {
@@ -92,7 +92,7 @@ public class game extends JFrame {
             timer.start();
         }
 
-        Timer disable = new Timer(30000, new ActionListener() {
+        Timer disable = new Timer(20000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 hintButton.setEnabled(true);
             }
@@ -104,7 +104,7 @@ public class game extends JFrame {
          */
         ActionListener press = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 for (JButton b: buttons) { //clear the borders
                     b.setBorder(empty);
                 }
@@ -119,13 +119,13 @@ public class game extends JFrame {
                         //play different sound according to streak
                         streak++;
                         if (streak == 3) {
-                            SoundPlayer.playSound("src/amazing.wav");
+                            SoundPlayer.playSound("src/sounds/amazing.wav");
                         }
                         else if (streak >= 6 && streak % 3 == 0){
-                            SoundPlayer.playSound("src/unbelievable.wav");
+                            SoundPlayer.playSound("src/sounds/unbelievable.wav");
                         }
                         else {
-                            SoundPlayer.playSound("src/correct.wav");
+                            SoundPlayer.playSound("src/sounds/correct.wav");
                         }
 
                         message.setForeground(new Color(102, 204, 0));
@@ -147,7 +147,7 @@ public class game extends JFrame {
                         else {
                             if (extra) { //if extra card slots are added (need to get rid of extra slots if SET presents)
                                 extra = false;
-                                SoundPlayer.playSound("src/buttonclick.wav");
+                                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                                 for (int i: selected) { //clear the extra slots
                                     displayed[i] = null;
                                     buttons.get(i).setEnabled(true);
@@ -183,7 +183,7 @@ public class game extends JFrame {
 
                         if (!checkSetPresent()) { //if there is no set presented on board (need extra slots)
                             if (remainingCards == 0){ //if there is no card in stack - game over
-                                SoundPlayer.playSound("src/gameover.wav");
+                                SoundPlayer.playSound("src/sounds/gameover.wav");
                                 for (JButton bu: buttons) {
                                     bu.setEnabled(false);
                                     hintButton.setEnabled(false);
@@ -199,12 +199,12 @@ public class game extends JFrame {
                                 }
                                 return;
                             }
-                            SoundPlayer.playSound("src/buttonclick.wav");
+                            SoundPlayer.playSound("src/sounds/buttonclick.wav");
                             addExtraSlot();
                         }
                     }
                     else {
-                        SoundPlayer.playSound("src/incorrect.wav");
+                        SoundPlayer.playSound("src/sounds/incorrect.wav");
                         streak = 0;
                         for (int n: selected) {
                             buttons.get(n).setBorder(red);
@@ -232,7 +232,7 @@ public class game extends JFrame {
          */
         restartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 dispose();
                 new game(challenge).setVisible(true);
             }
@@ -243,7 +243,7 @@ public class game extends JFrame {
          */
         hintButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/hint.wav");
+                SoundPlayer.playSound("src/sounds/hint.wav");
                 for(Integer n: existingSet) {
                     buttons.get(n).setBorder(orange);
                 }
@@ -257,7 +257,7 @@ public class game extends JFrame {
          */
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 dispose();
                 new coverPage().setVisible(true);
             }
@@ -430,7 +430,7 @@ public class game extends JFrame {
      * calls method when game is over
      */
     public void gameOver() {
-        SoundPlayer.playSound("src/gameover.wav");
+        SoundPlayer.playSound("src/sounds/gameover.wav");
         message.setText("Game Over!");
         for (JButton b: buttons) {
             b.setEnabled(false);

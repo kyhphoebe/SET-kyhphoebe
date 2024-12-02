@@ -24,7 +24,7 @@ public class coverPage extends JFrame{
         setVisible(true);
         setResizable(false);
         setContentPane(panel1);
-        music = SoundPlayer.loopMusic("src/bgm.wav");
+        music = SoundPlayer.loopMusic("src/sounds/bgm.wav");
         ImageIcon original = new ImageIcon(getClass().getResource("setcover.jpg"));
         Image img = original.getImage().getScaledInstance(700, 200, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(img);
@@ -36,7 +36,7 @@ public class coverPage extends JFrame{
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 music.stop();
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 dispose();
                 new game(checkbox.isSelected()).setVisible(true);
             }
@@ -47,7 +47,7 @@ public class coverPage extends JFrame{
          */
         instructionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 new instruction().setVisible(true);
             }
         });
@@ -58,7 +58,7 @@ public class coverPage extends JFrame{
         trainingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 music.stop();
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 dispose();
                 new training().setVisible(true);
             }

@@ -39,13 +39,13 @@ public class training extends JFrame{
                 if (isSet) {
                     message.setForeground(new Color(102, 204, 0));
                     message.setText("Correct!");
-                    SoundPlayer.playSound("src/correct.wav");
+                    SoundPlayer.playSound("src/sounds/correct.wav");
                     showSet(generate());
                 }
                 else {
                     message.setForeground(Color.red);
                     message.setText("This is not a SET");
-                    SoundPlayer.playSound("src/incorrect.wav");
+                    SoundPlayer.playSound("src/sounds/incorrect.wav");
                 }
             }
         });
@@ -58,12 +58,12 @@ public class training extends JFrame{
                 if (isSet) {
                     message.setForeground(Color.red);
                     message.setText("This is a SET");
-                    SoundPlayer.playSound("src/incorrect.wav");
+                    SoundPlayer.playSound("src/sounds/incorrect.wav");
                 }
                 else {
                     message.setForeground(new Color(102, 204, 0));
                     message.setText("Correct!");
-                    SoundPlayer.playSound("src/correct.wav");
+                    SoundPlayer.playSound("src/sounds/correct.wav");
                     showSet(generate());
                 }
             }
@@ -74,7 +74,7 @@ public class training extends JFrame{
          */
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SoundPlayer.playSound("src/buttonclick.wav");
+                SoundPlayer.playSound("src/sounds/buttonclick.wav");
                 dispose();
                 new coverPage().setVisible(true);
             }
